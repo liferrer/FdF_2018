@@ -1,0 +1,95 @@
+#include "mlx.h"
+#include "libft/libft.h"
+#include "fdf.h"
+
+void	putpixel(t_mlx *mlx_infos, t_coord start)
+{
+	mlx_pixel_put(mlx_infos->ptr, mlx_infos->win, start.x, start.y, 0x1EE110);
+}
+
+void	ft_bresenham(t_coord start, t_coord dest, t_mlx *mlx_infos)
+{
+	t_bsh bsh;
+
+	bsh.dx = abs(dest.x - start.x);
+	bsh.vx = (start.x<dest.x ? 1 : -1);
+	bsh.dy = abs(dest.x - start.y);
+	bsh.vy = (start.y<dest.y ? 1 : -1);
+	bsh.dir = (bsh.dx>bsh.dy ? bsh.dx : -bsh.dy);
+printf("testzer\n");
+	while (start.x != dest.x && start.y != dest.y)
+	{
+		putpixel(mlx_infos, start);
+		bsh.tmp = bsh.dir;
+		if (bsh.tmp > -bsh.dx)
+		{
+			bsh.dir -= bsh.dy;
+			start.x += bsh.vx;
+		}
+		if (bsh.tmp < bsh.dy)
+		{
+			bsh.dir += bsh.dx;
+			start.y += bsh.vy;
+
+		}
+	}
+	putpixel(mlx_infos, start);
+}
+
+int	deal_key(int key, t_mlx *mlx_infos)
+{
+	static int j = 0;
+	int i;
+
+	i = -1;
+	ft_putnbr(key);
+	if (key == 7)
+	{
+		mlx_destroy_window(mlx_infos->ptr, mlx_infos->win);
+		exit(0);
+	}
+	if (key == 49)
+	{
+		while (++i < 10)
+			mlx_pixel_put(mlx_infos->ptr, mlx_infos->win, j, i, 0x1EE110);
+		i = 0;
+		j++;
+	}
+	return (0);
+}
+
+t_mlx	init_mlx(void)
+{
+	t_mlx	mlx_infos;
+	void	*mlx_ptr;
+	void	*mlx_win;
+
+	mlx_ptr = mlx_init();
+	mlx_win = mlx_new_window(mlx_ptr, 500, 500, "titre");
+	mlx_infos.ptr = mlx_ptr;
+	mlx_infos.win = mlx_win;
+
+	return (mlx_infos);
+}
+
+int	main(void)
+{
+	t_mlx	mlx_infos;
+	t_coord	start;
+	t_coord dest;
+
+	start.x = 10;
+	start.y = 10;
+	dest.x = 10;
+	dest.y = 40;
+	mlx_infos = init_mlx();
+	ft_bresenham(start, dest, &mlx_infos);
+
+	//start.x = 10;
+	//start.y = 40;
+	//dest.x = 50;
+	//dest.y = 10;
+	//ft_bresenham(start, dest, &mlx_infos);
+	mlx_loop(mlx_infos.ptr);
+	return (0);
+}
