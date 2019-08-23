@@ -197,6 +197,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	mlx_infos = init_mlx();
+	mlx_infos->img = mlx_new_image(mlx_infos->ptr, mlx_infos->win, WIN_X, WIN_Y);
 	ft_fdf(argv[1], &mlx_infos);
 	mlx_key_hook(mlx_infos.win, deal_key, (void *)&mlx_infos);
 	mlx_loop(mlx_infos.ptr);

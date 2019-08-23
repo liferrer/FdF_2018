@@ -54,6 +54,7 @@ void	ft_bresenham(t_coord start, t_coord dest, t_mlx *mlx_infos)
 
 		}
 	}
+	//modif ajouter la fonction mendy
 	putpixel(mlx_infos, start);
 }
 

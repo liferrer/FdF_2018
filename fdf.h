@@ -25,6 +25,7 @@ typedef struct		s_mlx
 {
 	void		*ptr;
 	void		*win;
+	void		*img;
 	t_coord		**grid;
 	int		*lengths;
 }			t_mlx;
